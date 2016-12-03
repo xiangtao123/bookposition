@@ -1,18 +1,23 @@
 <html>
   <head>
-    <title>书位知 - 共享您的图书，传阅您的价值！  at bookposistion.com </title>
+    <title>书位知 - 共享您的图书 传阅您的价值  bookposistion.com </title>
     <meta charset="utf8" />
     <meta name="keywords" content="书位知 借书 租书 书游华夏"
     <meta name="description" content="书位知 分享图书 共享图书 传阅 价值 书游华夏 文人 墨客 借书 租书  " />
-
+    
+    <meta name="baidu-site-verification" content="bfH5GHAAyu">
+    
     <style type="text/css">
       body {font:14px/normal Arial,Helvetica; }
       ul li {list-style:none;}
-      h1 {margin:0px auth; width:100%;padding:6px 10px;}
-      .index_footer {bottom:0;width:500px;height:60px;clear:both;}
+      h1 {margin:0px auth; width:98%;padding:6px 10px;}
+      .index_footer {bottom:0;width:98%;height:60px;clear:both;}
       .h_center {margin:0px auto;}
     </style>
-
+    
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="bookmark" href="/favicon.ico"/>
+    
   </head>
 
   <body>
@@ -31,11 +36,54 @@
     
     <div style="width:50%;height:400px;margin:0px auto; padding:6px;">
       书游华夏，传阅您的价值！从这里开始...
+      <input id="keyWord" type="text" value="人工智能" />
+      <a href="javascript:void(0);" id="searchLink">查询</a>
+      
+     <div id="echo" style="border:solid gray 1px;">
+     
+     </div>
+     
     </div>
 
     <div class="index_footer h_center v_bottom">
       2016©copyright all rights reserved. 书位知 版权所有
       <a target="_blank" href="http://www.miitbeian.gov.cn/">京ICP备16057949号-1</a>
     </div>
+
+
+  <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    var apiUrl = 'https://api-2445581351187.apicast.io/search?p=1&app_id=1ec059a3&app_key=646e9ded52ea220ed92c3a488696e72d&q=';   
+    
+    $(function(){
+      bindEvent();
+    });
+    function bindEvent(){
+      $('#searchLink').click(function(){
+        var keyWord = $('#keyWord').val();
+        if ('' == keyWord) {
+          return;
+        }
+        var echoEl = $('#echo');
+        search(keyWord, echoEl);
+      });
+    };
+
+    function search(keyWord, echoEl){
+      $.ajax({
+        url : apiUrl+keyWord,
+        success : function(data){
+          echoEl.html(data);
+        },
+        jsonp: "callback",
+        dataType: "xml"        
+
+      });
+    };
+  </script>
+
+
+
+
   </body>
 </html>

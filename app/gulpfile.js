@@ -23,19 +23,34 @@ var sourcemaps = require('gulp-sourcemaps');
 // js hint
 var jshint = require('gulp-jshint');
 
+// concatreplace
+var concatreplace = require('gulp-concat-replace');
+
+// del
+var del = require('del');
 
 
-gulp.task('default', function(){
-  console.log('This is gulp default task.');
+
+// package path
+var target_path = 'target';
+
+// minify concat
+var dist_path = 'dist';
+
+gulp.task('clean', function(){
+  return del([dist_path+'/**/*', target_path+'/**/*']); 
+});
+
+gulp.task('package',function(){
+  return gulp.src(['*.png','*.ico','*.txt','*.htm*','img/**/*','js/**/*','css/**/*'])
+           .pipe(gulp.dest(target_path));
 });
 
 gulp.task('minify-js', function(cb){
-  pump([
-    gulp.src('js/*.js'),
-    uglify(),
-    rename({suffix:'.min'}),
-    gulp.dest('dist/js')
-  ],cb);
+  return gulp.src('js/*.js')
+    .pipe(uglify())
+    .pipe(rename({suffix:'.min'}))
+    .pipe(gulp.dest(dist_path+'/js'));
 });
 
 gulp.task('minify-css', function(){
@@ -45,25 +60,26 @@ gulp.task('minify-css', function(){
            console.log(details.name + ': ' + details.stats.minifiedSize);
          }))
          .pipe(rename({suffix:'.min'}))
-         .pipe(gulp.dest('dist/css'));
+         .pipe(gulp.dest(dist_path+'/css'));
 });
 
-gulp.task('concat-js', function(){
-  return gulp.src(['dist/**/*.{js,json}'])
+gulp.task('concat-js',['minify-js'], function(){
+  return gulp.src([dist_path+'/**/*.{js,json}'])
              .pipe(sourcemaps.init())
              .pipe(concatjs({
                'target' : 'concatenated.js',
                'entry': './main.js'
              }))
              .pipe(sourcemaps.write())
-             .pipe(gulp.dest('dist'));
+             .pipe(gulp.dest(dist_path));
 });
 
-gulp.task('concat-css', function(){
-  return gulp.src(['dist/css/*.css'])
-    .pipe(concatcss('bundle.css'))
-    .pipe(gulp.dest('dist/'))
+gulp.task('concat-css',['minify-css'], function(){
+  return gulp.src([dist_path+'/css/*.css'])
+    .pipe(concatcss('concatenated.css'))
+    .pipe(gulp.dest(dist_path))
 });
+
 
 gulp.task('lint', function(){
   return gulp.src(['js/*.js'])
@@ -71,5 +87,19 @@ gulp.task('lint', function(){
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('minify-replace',['concat-css','concat-js','package'], function(){
+  return gulp.src('*.html')
+    .pipe(concatreplace({
+      prefix:'concat',
+      base:'../',
+      output:{
+        css:dist_path+'/css',
+        js:dist_path+'/js'
+      }
+    }))
+    .pipe(gulp.dest(target_path));// html 替换后的目录
+});
+
+gulp.task('default', ['minify-replace']);
 
 

@@ -41,10 +41,6 @@ gulp.task('clean', function(){
   return del([dist_path+'/**/*', target_path+'/**/*']); 
 });
 
-gulp.task('package',function(){
-  return gulp.src(['*.png','*.ico','*.txt','*.htm*','img/**/*','js/**/*','css/**/*'])
-           .pipe(gulp.dest(target_path));
-});
 
 gulp.task('minify-js', function(cb){
   return gulp.src('js/*.js')
@@ -100,6 +96,11 @@ gulp.task('minify-replace',['concat-css','concat-js','package'], function(){
     .pipe(gulp.dest(target_path));// html 替换后的目录
 });
 
-gulp.task('default', ['minify-replace']);
+gulp.task('package',['minify-replace'],function(){
+  return gulp.src(['*'])
+           .pipe(gulp.dest(target_path));
+});
+
+gulp.task('default', ['package']);
 
 

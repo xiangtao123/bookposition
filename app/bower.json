@@ -15,7 +15,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "js/vendor",
+    "src/js/vendor",
     "test",
     "tests"
   ],

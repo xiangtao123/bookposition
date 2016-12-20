@@ -1,7 +1,7 @@
 {
-  "name": "bookposition",
+  "name": "webdemo",
   "version": "1.0.0",
-  "description": "bookposition web app",
+  "description": "web demo",
   "main": "index.js",
   "directories": {
     "doc": "doc"
@@ -15,12 +15,12 @@
     "gulp-clean-css": "^2.2.2",
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^2.3.0",
-    "gulp-concat-js": "^0.1.0",
-    "gulp-concat-replace": "^1.0.5",
+    "gulp-html-replace": "^1.6.2",
     "gulp-jshint": "^2.0.4",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-uglify": "^2.0.0",
+    "gulp-webserver": "^0.9.1",
     "jshint": "^2.9.4",
     "pump": "^1.0.1"
   },
@@ -28,7 +28,7 @@
     "test": "make test"
   },
   "keywords": [
-    "bookposition.com"
+    "webdemo"
   ],
   "author": "sunburst",
   "license": "ISC"

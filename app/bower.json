@@ -1,5 +1,6 @@
 {
   "name": "app",
+  "directory":"src/js/vendor",
   "homepage": "https://github.com/xiangtao123/bookposition",
   "authors": [
     "xiangtao <xiang_tao123_happy@163.com>"
